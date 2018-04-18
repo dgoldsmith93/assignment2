@@ -1,5 +1,4 @@
 errors = zeros(11,1);
-hs = zeros(11,1);
 for k = 1:11
     n = 10*(2^k);
     A = sparse(zeros(n));
@@ -12,12 +11,12 @@ for k = 1:11
         A(i,i-2:i+2) = [1 -4 6 -4 1];
     end
     L = 2; %length in meters.
-    x= L/n:L/n:L;
     w = .3; %width in meters.
     d = .03; %thickness in meters.
     g = 9.81; %acceleration near earth's surface. Units of meter's/second^2.
     p = 100; %sinusoidal pile term. kg/meter.
-    s = -(p*g*sin(pi.*x/L));
+    s = zeros(1,n);
+    s(round(.9*n):n) = -(g*70/.02);
     f = -480*w*d*g+s; %no longer a constant force because x now varies from 0 to L. 
    
 
@@ -26,7 +25,7 @@ for k = 1:11
    
 
     h = L/n;
-    
+
     b = ((h^4)/(E*I))*f.*ones(n,1)'; %force vector.
     y = A\b'; %displacement vector.
     
@@ -48,6 +47,4 @@ for k = 1:11
     %     disp("nice!");
     % end
     errors(k) = abs((true_y - y(length(y)))/(true_y));
-    hs(k) = h;   
 end
-figure; plot(log(hs.^2),log(errors)); %min for k=5. seems to almost be fixed point (x=-12.92,y=12.49).
