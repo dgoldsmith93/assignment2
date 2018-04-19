@@ -1,6 +1,6 @@
 errors = zeros(11,1);
 hs = zeros(11,1);
-for k = 1:11
+for k = 1:6
     n = 10*(2^k);
     A = sparse(zeros(n));
 
@@ -50,4 +50,4 @@ for k = 1:11
     errors(k) = abs((true_y - y(length(y)))/(true_y));
     hs(k) = h;   
 end
-figure; plot(log(hs.^2),log(errors)); %min for k=5. seems to almost be fixed point (x=-12.92,y=12.49).
+figure; plot(log(hs),log(errors)); %min for k=5. seems to almost be fixed point (x=-12.92,y=12.49).
